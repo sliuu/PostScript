@@ -59,6 +59,8 @@ public class Token
      */
     static public final int ProcedureKind = 4;
 
+    static public final int ArrayKind = 5;
+
     /**
      * Associated numeric value of token, if isNumber().
      */
@@ -74,6 +76,9 @@ public class Token
     /**
      * Associated list of token, if isProcedure().
      */
+
+    private Vector<Token> array; // Array
+    
     private List<Token> procedure;	// a list of tokens for procedures
 
     /**
@@ -126,6 +131,14 @@ public class Token
      * @return integer representing the kind of the token, usually
      * Token.number, Token.symbol, etc.
      */
+
+    // Creates a vector of Tokens in the Token
+    public Token(Vector<Token> arr) {
+
+	kind = ArrayKind;
+	this.array = arr;
+    }
+    
     public int kind()
     {
 	return this.kind;
@@ -147,6 +160,13 @@ public class Token
     public boolean isBoolean()
     {
 	return kind == BooleanKind;
+    }
+
+    // Returns true iff the token is an array
+    public boolean isArray() {
+
+	return kind == ArrayKind;
+
     }
 
     /**
@@ -185,6 +205,13 @@ public class Token
     {
 	Assert.pre(isBoolean(),"Is a boolean.");
 	return bool;
+    }
+    // Returns the array, provided it's an array
+    public Vector<Token> getArray() {
+
+	Assert.pre(isArray(), "Is an array.");
+	return array;
+
     }
 
     /**
@@ -233,6 +260,10 @@ public class Token
 	  case ProcedureKind:
 	    result = this.procedure == that.procedure;
 	    break;
+	case ArrayKind:
+	    result = this.array == that.array;
+	    break;
+	    
 	}
 	return result;
     }
@@ -254,6 +285,14 @@ public class Token
 	    break;
 	  case SymbolKind:
 	    result = symbol;
+	    break;
+	    //Iterates through the array (vector) and returns a string representation
+	case ArrayKind:
+	    result = "[";
+	    for (int i = 0; i < array.size(); i++) {
+		result = result + " " + array.get(i);
+	    }
+	    result = result + " ]";
 	    break;
 	  case ProcedureKind:
 	    result = "{ ";
