@@ -1,5 +1,4 @@
 // Stephanie Liu CS136
-// Should i add stuff that means nothing to the stack?
 
 import structure5.*;
 import java.util.Iterator;
